@@ -45,14 +45,79 @@ struct WeatherView: View {
                     Spacer()
                         .frame(height: 80)
                     
-             
+                    // ЗАМЕНИТЬ КАРТИНКУ НА БОЛЕЕ ОРГАНИЧНУЮ
+                    AsyncImage(url: URL(string: "https://gas-kvas.com/grafic/uploads/posts/2024-01/gas-kvas-com-p-nadpisi-gorodov-na-prozrachnom-fone-39.png")){
+                        image in image
+                            .image?.resizable()
+                            .aspectRatio(contentMode: .fit)
+                            .frame(width: 350)
+                    }
+                    
+                    Spacer()
+                    
+                    
+                    
                 }
                 .frame(maxWidth: .infinity)
                 
-                AsyncImage(url: URL(string: ""))
             }
             .padding()
             .frame(maxWidth: .infinity, alignment: .leading)
+            
+            VStack{
+                Spacer()
+                
+                VStack(){
+                    Text("Information")
+                        .bold().font(.system(size: 20))
+                        .foregroundColor(Color(red: 0.0, green: 0.0, blue: 0.0, opacity: 1.0))
+                    
+                    
+                    HStack{
+                        Image(systemName: "thermometer.sun.fill")
+                            .foregroundColor(Color(red: 0.0, green: 0.0, blue: 0.0, opacity: 1.0))
+                        Text(weather.main.temp_max.roundDouble() + "°")
+                            .foregroundColor(Color(red: 0.0, green: 0.0, blue: 0.0, opacity: 1.0))
+                        
+                    
+                    }
+                    VStack(alignment: .leading, spacing: 20){
+                        Text("Max Temp")
+                            .foregroundColor(Color(red: 0.0, green: 0.0, blue: 0.0, opacity: 1.0))
+                    }
+                    
+                    HStack{
+                        Image(systemName: "thermometer.snowflake")
+                            .foregroundColor(Color(red: 0.0, green: 0.0, blue: 0.0, opacity: 1.0))
+                        Text(weather.main.temp_min.roundDouble() + "°")
+                            .foregroundColor(Color(red: 0.0, green: 0.0, blue: 0.0, opacity: 1.0))
+                    }
+                    VStack(alignment: .leading, spacing: 20){
+                        Text("Min Temp")
+                            .foregroundColor(Color(red: 0.0, green: 0.0, blue: 0.0, opacity: 1.0))
+                    }
+                    
+                    HStack{
+                        Image(systemName: "wind")
+                            .foregroundColor(Color(red: 0.0, green: 0.0, blue: 0.0, opacity: 1.0))
+                        Text(weather.wind.speed.roundDouble() + " km/h")
+                            .foregroundColor(Color(red: 0.0, green: 0.0, blue: 0.0, opacity: 1.0))
+                    }
+                    VStack(alignment: .leading, spacing: 20){
+                        Text("Speed Wind")
+                            .foregroundColor(Color(red: 0.0, green: 0.0, blue: 0.0, opacity: 1.0))
+                    }
+                    
+                }
+                .frame(maxWidth: .infinity, alignment: .leading)
+                .padding()
+                .padding(.bottom, 20)
+                .foregroundColor(Color(red: 0.0, green: 0.0, blue: 0.5, opacity: 1.0))
+                .background(.white)
+                .cornerRadius(20, corners: [.topLeft, .topRight])
+
+            }
+            
             
         }
         .edgesIgnoringSafeArea(.bottom)

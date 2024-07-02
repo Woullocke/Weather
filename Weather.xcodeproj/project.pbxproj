@@ -16,7 +16,7 @@
 		154AD4B92C33F1EB009902CF /* WeatherManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 154AD4B82C33F1E0009902CF /* WeatherManager.swift */; };
 		154AD4BB2C3401A0009902CF /* WeatherView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 154AD4BA2C3401A0009902CF /* WeatherView.swift */; };
 		154AD4BF2C341CCC009902CF /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 154AD4BE2C341CB7009902CF /* Extensions.swift */; };
-		154AD4C32C3435C1009902CF /* Media.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 154AD4C22C3435C1009902CF /* Media.xcassets */; };
+		154AD4CD2C343EEA009902CF /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 154AD4CC2C343EEA009902CF /* Assets.xcassets */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -30,7 +30,7 @@
 		154AD4B82C33F1E0009902CF /* WeatherManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherManager.swift; sourceTree = "<group>"; };
 		154AD4BA2C3401A0009902CF /* WeatherView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherView.swift; sourceTree = "<group>"; };
 		154AD4BE2C341CB7009902CF /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
-		154AD4C22C3435C1009902CF /* Media.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Media.xcassets; sourceTree = "<group>"; };
+		154AD4CC2C343EEA009902CF /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Assets.xcassets; path = Weather/Assets.xcassets; sourceTree = SOURCE_ROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -85,7 +85,6 @@
 				154AD4B82C33F1E0009902CF /* WeatherManager.swift */,
 				154AD4BE2C341CB7009902CF /* Extensions.swift */,
 				154AD4AF2C33E322009902CF /* LocationManager.swift */,
-				154AD4C22C3435C1009902CF /* Media.xcassets */,
 			);
 			path = Managers;
 			sourceTree = "<group>";
@@ -97,6 +96,7 @@
 				154AD4B42C33E5B4009902CF /* WelcomeView.swift */,
 				154AD4B62C33E9A7009902CF /* LoadingView.swift */,
 				154AD4BA2C3401A0009902CF /* WeatherView.swift */,
+				154AD4CC2C343EEA009902CF /* Assets.xcassets */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -159,7 +159,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				154AD4C32C3435C1009902CF /* Media.xcassets in Resources */,
+				154AD4CD2C343EEA009902CF /* Assets.xcassets in Resources */,
 				154AD4A82C33E071009902CF /* Preview Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
