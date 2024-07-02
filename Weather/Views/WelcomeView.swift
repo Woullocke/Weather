@@ -1,10 +1,3 @@
-//
-//  WelcomeView.swift
-//  Weather
-//
-//  Created by Иван Булгаков on 2.7.2024.
-//
-
 import SwiftUI
 import CoreLocationUI
 
@@ -16,14 +9,14 @@ struct WelcomeView: View {
             VStack(spacing: 20){
                 Text("Welcome to the Weather")
                     .bold().font(.title)
-                    .foregroundColor(.white)
+                    .foregroundColor(ColorsManager.textLightColor)
 
                 
                 Text("Please share your current location to get the weather in your area")
                     .multilineTextAlignment(.center)
                     .padding()
-                    .foregroundColor(.white)
-                
+                    .foregroundColor(ColorsManager.textLightColor)
+
                 LocationButton(.shareCurrentLocation){
                     locationManager.requestLocation()
                 }

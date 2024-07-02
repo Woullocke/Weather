@@ -1,12 +1,3 @@
-//
-//  WeatherManager.swift
-//  Weather
-//
-//  Created by Иван Булгаков on 2.7.2024.
-//
-//  Key api (OpenWeather) 6c3801b1036035758241772066716dc8
-// api.openweathermap.org/data/2.5/weather?lat=(lat}&lon={lon}&appid={API key}
-
 import Foundation
 import CoreLocation
 

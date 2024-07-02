@@ -1,10 +1,3 @@
-//
-//  LocationManager.swift
-//  Weather
-//
-//  Created by Иван Булгаков on 2.7.2024.
-//
-
 import Foundation
 import CoreLocation
 
@@ -32,5 +25,6 @@ class LocationManager: NSObject, ObservableObject, CLLocationManagerDelegate{
     func locationManager(_ manager: CLLocationManager, didFailWithError error: any Error) {
         print("Error getting location", error)
         isLoading = false
+        
     }
 }

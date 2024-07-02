@@ -1,21 +1,14 @@
-//
-//  ContentView.swift
-//  Weather
-//
-//  Created by Иван Булгаков on 2.7.2024.
-//
-
 import SwiftUI
 
 struct ContentView: View {
-    @StateObject var locationManager = LocationManager()
-    var weatherManager = WeatherManager()
-    @State var weather: ResponseBody?
-    
+    @StateObject private var locationManager = LocationManager()
+    private var weatherManager = WeatherManager()
+    @State private var weather: ResponseBody?
+
     var body: some View {
         VStack {
-            if let location = locationManager.location{
-                if let weather = weather{
+            if let location = locationManager.location {
+                if let weather = weather {
                     WeatherView(weather: weather)
                 } else {
                     LoadingView()
@@ -28,7 +21,7 @@ struct ContentView: View {
                         }
                 }
             } else {
-                if locationManager.isLoading{
+                if locationManager.isLoading {
                     LoadingView()
                 } else {
                     WelcomeView()
@@ -36,7 +29,7 @@ struct ContentView: View {
                 }
             }
         }
-        .background(Color(red: 0.0, green: 0.0, blue: 0.5, opacity: 1.0))
+        .background(ColorsManager.backgroundColor)
         .preferredColorScheme(.dark)
     }
 }
@@ -44,3 +37,4 @@ struct ContentView: View {
 #Preview {
     ContentView()
 }
+

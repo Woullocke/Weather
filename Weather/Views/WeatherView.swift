@@ -1,10 +1,3 @@
-//
-//  WeatherView.swift
-//  Weather
-//
-//  Created by Иван Булгаков on 2.7.2024.
-//
-
 import SwiftUI
 
 struct WeatherView: View {
@@ -70,49 +63,49 @@ struct WeatherView: View {
                 VStack(){
                     Text("Information")
                         .bold().font(.system(size: 20))
-                        .foregroundColor(Color(red: 0.0, green: 0.0, blue: 0.0, opacity: 1.0))
+                        .foregroundColor(ColorsManager.textDarkColor)
                     
                     
                     HStack{
                         Image(systemName: "thermometer.sun.fill")
-                            .foregroundColor(Color(red: 0.0, green: 0.0, blue: 0.0, opacity: 1.0))
+                            .foregroundColor(ColorsManager.textDarkColor)
                         Text(weather.main.temp_max.roundDouble() + "°")
-                            .foregroundColor(Color(red: 0.0, green: 0.0, blue: 0.0, opacity: 1.0))
-                        
+                            .foregroundColor(ColorsManager.textDarkColor)
+
                     
                     }
                     VStack(alignment: .leading, spacing: 20){
                         Text("Max Temp")
-                            .foregroundColor(Color(red: 0.0, green: 0.0, blue: 0.0, opacity: 1.0))
+                            .foregroundColor(ColorsManager.textDarkColor)
                     }
                     
                     HStack{
                         Image(systemName: "thermometer.snowflake")
-                            .foregroundColor(Color(red: 0.0, green: 0.0, blue: 0.0, opacity: 1.0))
+                            .foregroundColor(ColorsManager.textDarkColor)
                         Text(weather.main.temp_min.roundDouble() + "°")
-                            .foregroundColor(Color(red: 0.0, green: 0.0, blue: 0.0, opacity: 1.0))
+                            .foregroundColor(ColorsManager.textDarkColor)
                     }
                     VStack(alignment: .leading, spacing: 20){
                         Text("Min Temp")
-                            .foregroundColor(Color(red: 0.0, green: 0.0, blue: 0.0, opacity: 1.0))
+                            .foregroundColor(ColorsManager.textDarkColor)
                     }
                     
                     HStack{
                         Image(systemName: "wind")
-                            .foregroundColor(Color(red: 0.0, green: 0.0, blue: 0.0, opacity: 1.0))
+                            .foregroundColor(ColorsManager.textDarkColor)
                         Text(weather.wind.speed.roundDouble() + " km/h")
-                            .foregroundColor(Color(red: 0.0, green: 0.0, blue: 0.0, opacity: 1.0))
+                            .foregroundColor(ColorsManager.textDarkColor)
                     }
                     VStack(alignment: .leading, spacing: 20){
                         Text("Speed Wind")
-                            .foregroundColor(Color(red: 0.0, green: 0.0, blue: 0.0, opacity: 1.0))
+                            .foregroundColor(ColorsManager.textDarkColor)
                     }
                     
                 }
                 .frame(maxWidth: .infinity, alignment: .leading)
                 .padding()
                 .padding(.bottom, 20)
-                .foregroundColor(Color(red: 0.0, green: 0.0, blue: 0.5, opacity: 1.0))
+                .foregroundColor(ColorsManager.textDarkColor)
                 .background(.white)
                 .cornerRadius(20, corners: [.topLeft, .topRight])
 
@@ -121,7 +114,7 @@ struct WeatherView: View {
             
         }
         .edgesIgnoringSafeArea(.bottom)
-        .background(Color(red: 0.0, green: 0.0, blue: 0.5, opacity: 1.0))
+        .background(ColorsManager.backgroundColor)
         .preferredColorScheme(.dark)
     }
 }

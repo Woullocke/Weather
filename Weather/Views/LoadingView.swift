@@ -1,10 +1,3 @@
-//
-//  LoadingView.swift
-//  Weather
-//
-//  Created by Иван Булгаков on 2.7.2024.
-//
-
 import SwiftUI
 
 struct LoadingView: View {
