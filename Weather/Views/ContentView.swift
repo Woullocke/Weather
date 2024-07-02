@@ -4,6 +4,8 @@ struct ContentView: View {
     @StateObject private var locationManager = LocationManager()
     private var weatherManager = WeatherManager()
     @State private var weather: ResponseBody?
+    @State private var showingAlert = false
+    @State private var errorMessage: String?
 
     var body: some View {
         VStack {
@@ -17,6 +19,7 @@ struct ContentView: View {
                                 weather = try await weatherManager.getCurrentWeather(latitide: location.latitude, longitude: location.longitude)
                             } catch {
                                 print("Error getting weather: \(error)")
+                                locationManager.error = error // Устанавливаем ошибку для отображения алерта
                             }
                         }
                 }
@@ -31,10 +34,25 @@ struct ContentView: View {
         }
         .background(ColorsManager.backgroundColor)
         .preferredColorScheme(.dark)
+        .onReceive(locationManager.$error) { error in
+            if let error = error {
+                errorMessage = error.localizedDescription
+                showingAlert = true
+            }
+        }
+        .alert(isPresented: $showingAlert) {
+            Alert(
+                title: Text("Error"),
+                message: Text(errorMessage ?? "Unknown error"),
+                dismissButton: .default(Text("OK")) {
+                    locationManager.error = nil
+                    showingAlert = false
+                }
+            )
+        }
     }
 }
 
 #Preview {
     ContentView()
 }
-
