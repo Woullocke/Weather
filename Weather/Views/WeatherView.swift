@@ -2,6 +2,7 @@ import SwiftUI
 
 struct WeatherView: View {
     var weather: ResponseBody
+    var sunriseSunset: SunriseSunsetResponse
     
     
     var body: some View {
@@ -115,12 +116,12 @@ struct WeatherView: View {
                     HStack{
                         Image(systemName: "wind")
                             .foregroundColor(ColorsManager.textDarkColor)
-                        Text(weather.wind.speed.roundDouble() + " km/h")
+                        Text(weather.wind.speed.roundDouble() + " m/s")
                             .foregroundColor(ColorsManager.textDarkColor)
                         Spacer()
                         Image(systemName: "sunset")
                             .foregroundColor(ColorsManager.textDarkColor)
-                        Text(weather.main.temp_max.roundDouble() + "°")
+                        Text(sunriseSunset.results.sunset)
                             .foregroundColor(ColorsManager.textDarkColor)
 
                     }
@@ -161,5 +162,10 @@ struct WeatherView: View {
         wind: ResponseBody.WindResponse(speed: 5.0, deg: 180)
     )
     
-    return WeatherView(weather: sampleWeather)
+    let sampleSunriseSunset = SunriseSunsetResponse(
+        results: Results(sunrise: "4:45 AM", sunset: "7:55 PM", solarNoon: "12:20 PM"),
+        status: "OK"
+    )
+    
+    return WeatherView(weather: sampleWeather, sunriseSunset: sampleSunriseSunset)
 }

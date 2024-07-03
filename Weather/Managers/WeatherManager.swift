@@ -18,7 +18,7 @@ class WeatherManager{
 }
 
 struct ResponseBody: Decodable {
-    var coord: CoordinatesResponse 
+    var coord: CoordinatesResponse
     var weather: [WeatherResponse]
     var main: MainResponse
     var name: String
@@ -44,7 +44,7 @@ struct ResponseBody: Decodable {
         var humidity: Double
     }
     struct WindResponse: Decodable {
-        var speed: Double 
+        var speed: Double
         var deg: Double
     }
 }
