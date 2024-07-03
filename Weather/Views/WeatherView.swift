@@ -71,12 +71,22 @@ struct WeatherView: View {
                             .foregroundColor(ColorsManager.textDarkColor)
                         Text(weather.main.temp_max.roundDouble() + "°")
                             .foregroundColor(ColorsManager.textDarkColor)
-
-                    
-                    }
-                    VStack(alignment: .leading, spacing: 20){
-                        Text("Max Temp")
+                        
+                        Spacer()
+                        Image(systemName: "aqi.medium")
                             .foregroundColor(ColorsManager.textDarkColor)
+                        Text(weather.main.pressure.roundDouble() + " hpa")
+                            .foregroundColor(ColorsManager.textDarkColor)
+                    }
+                    
+                    VStack(alignment: .leading, spacing: 20){
+                        HStack(){
+                            Text("Max Temp")
+                                .foregroundColor(ColorsManager.textDarkColor)
+                            Spacer()
+                            Text("Pressure")
+                                .foregroundColor(ColorsManager.textDarkColor)
+                        }
                     }
                     
                     HStack{
@@ -84,10 +94,22 @@ struct WeatherView: View {
                             .foregroundColor(ColorsManager.textDarkColor)
                         Text(weather.main.temp_min.roundDouble() + "°")
                             .foregroundColor(ColorsManager.textDarkColor)
+                        
+                        Spacer()
+                        Image(systemName: "humidity")
+                            .foregroundColor(ColorsManager.textDarkColor)
+                        Text(weather.main.humidity.roundDouble() + " %")
+                            .foregroundColor(ColorsManager.textDarkColor)
+
                     }
                     VStack(alignment: .leading, spacing: 20){
-                        Text("Min Temp")
-                            .foregroundColor(ColorsManager.textDarkColor)
+                        HStack{
+                            Text("Min Temp")
+                                .foregroundColor(ColorsManager.textDarkColor)
+                            Spacer()
+                            Text("Humidity")
+                                .foregroundColor(ColorsManager.textDarkColor)
+                        }
                     }
                     
                     HStack{
@@ -95,10 +117,21 @@ struct WeatherView: View {
                             .foregroundColor(ColorsManager.textDarkColor)
                         Text(weather.wind.speed.roundDouble() + " km/h")
                             .foregroundColor(ColorsManager.textDarkColor)
+                        Spacer()
+                        Image(systemName: "sunset")
+                            .foregroundColor(ColorsManager.textDarkColor)
+                        Text(weather.main.temp_max.roundDouble() + "°")
+                            .foregroundColor(ColorsManager.textDarkColor)
+
                     }
                     VStack(alignment: .leading, spacing: 20){
-                        Text("Speed Wind")
-                            .foregroundColor(ColorsManager.textDarkColor)
+                        HStack(){
+                            Text("Speed Wind")
+                                .foregroundColor(ColorsManager.textDarkColor)
+                            Spacer()
+                            Text("Sunset")
+                                .foregroundColor(ColorsManager.textDarkColor)
+                        }
                     }
                     
                 }
