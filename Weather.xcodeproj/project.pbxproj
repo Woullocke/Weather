@@ -22,6 +22,7 @@
 		154AD4DD2C34A87D009902CF /* Launch Screen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 154AD4DC2C34A87D009902CF /* Launch Screen.storyboard */; };
 		15617B4B2C36A7BE00020444 /* UrlManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15617B4A2C36A7B600020444 /* UrlManager.swift */; };
 		158B21712C357C76009AF8E6 /* SunriseManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 158B21702C357C6E009AF8E6 /* SunriseManager.swift */; };
+		15D28DB42C3734170059F04C /* SelectCityView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15D28DB32C3734170059F04C /* SelectCityView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -41,6 +42,7 @@
 		154AD4DC2C34A87D009902CF /* Launch Screen.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = "Launch Screen.storyboard"; sourceTree = "<group>"; };
 		15617B4A2C36A7B600020444 /* UrlManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UrlManager.swift; sourceTree = "<group>"; };
 		158B21702C357C6E009AF8E6 /* SunriseManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SunriseManager.swift; sourceTree = "<group>"; };
+		15D28DB32C3734170059F04C /* SelectCityView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectCityView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -109,6 +111,7 @@
 				154AD4B42C33E5B4009902CF /* WelcomeView.swift */,
 				154AD4B62C33E9A7009902CF /* LoadingView.swift */,
 				154AD4BA2C3401A0009902CF /* WeatherView.swift */,
+				15D28DB32C3734170059F04C /* SelectCityView.swift */,
 				154AD4CC2C343EEA009902CF /* Assets.xcassets */,
 				154AD4DC2C34A87D009902CF /* Launch Screen.storyboard */,
 			);
@@ -224,6 +227,7 @@
 			files = (
 				154AD4B92C33F1EB009902CF /* WeatherManager.swift in Sources */,
 				154AD4DB2C349267009902CF /* ColorManager.swift in Sources */,
+				15D28DB42C3734170059F04C /* SelectCityView.swift in Sources */,
 				158B21712C357C76009AF8E6 /* SunriseManager.swift in Sources */,
 				154AD4A32C33E06F009902CF /* ContentView.swift in Sources */,
 				154AD4D92C348BD3009902CF /* View.swift in Sources */,

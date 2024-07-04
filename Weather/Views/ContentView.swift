@@ -22,7 +22,7 @@ struct ContentView: View {
                                 sunriseSunset = try await sunriseSunsetManager.getSunriseSunsetAsync(latitude: location.latitude, longitude: location.longitude)
                             } catch {
                                 print("Error getting weather or sunrise/sunset: \(error)")
-                                locationManager.error = error // Set error for displaying alert
+                                locationManager.error = error
                             }
                         }
                 }
