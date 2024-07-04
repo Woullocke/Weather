@@ -20,8 +20,32 @@ struct WeatherView: View {
                 VStack {
                     HStack {
                         VStack(spacing: 20) {
-                            Image(systemName: "sun.max")
-                                .font(.system(size: 40))
+                            switch weather.weather[0].main {
+                            case "Clear":
+                                Image(systemName: "sun.max")
+                                    .font(.system(size: 40))
+                            case "Clouds":
+                                Image(systemName: "cloud")
+                                    .font(.system(size: 40))
+                            case "Atmosphere":
+                                Image(systemName: "tropicalstorm")
+                                    .font(.system(size: 40))
+                            case "Snow":
+                                Image(systemName: "cloud.snow")
+                                    .font(.system(size: 40))
+                            case "Rain":
+                                Image(systemName: "cloud.heavyrain")
+                                    .font(.system(size: 40))
+                            case "Drizzle":
+                                Image(systemName: "cloud.drizzle")
+                                    .font(.system(size: 40))
+                            case "Thunderstorm":
+                                Image(systemName: "cloud.bolt.rain")
+                                    .font(.system(size: 40))
+                            default:
+                                Image(systemName: "square.and.arrow.up.trianglebadge.exclamationmark.fill")
+                                    .font(.system(size: 40))
+                            }
 
                             Text(weather.weather[0].main)
                         }
