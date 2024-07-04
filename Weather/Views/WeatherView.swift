@@ -3,85 +3,80 @@ import SwiftUI
 struct WeatherView: View {
     var weather: ResponseBody
     var sunriseSunset: SunriseSunsetResponse
-    
-    
+
     var body: some View {
-        ZStack(alignment: .leading){
-            VStack{
-                VStack(alignment: .leading, spacing: 5){
+        ZStack(alignment: .leading) {
+            VStack {
+                VStack(alignment: .leading, spacing: 5) {
                     Text(weather.name)
                         .bold().font(.title)
                     Text("Today, \(Date().formatted(.dateTime.month().day().hour().minute()))")
                         .fontWeight(.light)
                 }
                 .frame(maxWidth: .infinity, alignment: .leading)
-                
+
                 Spacer()
-                
+
                 VStack {
-                    HStack{
-                        VStack(spacing: 20){
+                    HStack {
+                        VStack(spacing: 20) {
                             Image(systemName: "sun.max")
                                 .font(.system(size: 40))
-                            
+
                             Text(weather.weather[0].main)
                         }
                         .frame(width: 150, alignment: .leading)
-                        
+
                         Spacer()
-                        
+
                         Text(weather.main.temp.roundDouble() + "°")
                             .font(.system(size: 100))
                             .fontWeight(.bold)
                             .padding()
                     }
-                    
+
                     Spacer()
                         .frame(height: 80)
-                    
+
                     // ЗАМЕНИТЬ КАРТИНКУ НА БОЛЕЕ ОРГАНИЧНУЮ
-                    AsyncImage(url: URL(string: "https://gas-kvas.com/grafic/uploads/posts/2024-01/gas-kvas-com-p-nadpisi-gorodov-na-prozrachnom-fone-39.png")){
-                        image in image
+                    AsyncImage(url: PictureURL.getSunCity()) { image in image
                             .image?.resizable()
                             .aspectRatio(contentMode: .fit)
                             .frame(width: 350)
                     }
-                    
+
                     Spacer()
-                    
-                    
-                    
+
                 }
                 .frame(maxWidth: .infinity)
-                
+
             }
             .padding()
             .frame(maxWidth: .infinity, alignment: .leading)
-            
-            VStack{
+
+            VStack {
                 Spacer()
-                
-                VStack(){
+
+                VStack {
                     Text("Information")
                         .bold().font(.system(size: 20))
                         .foregroundColor(ColorsManager.textDarkColor)
-                    
-                    
-                    HStack{
+
+                    HStack {
                         Image(systemName: "thermometer.sun.fill")
                             .foregroundColor(ColorsManager.textDarkColor)
-                        Text(weather.main.temp_max.roundDouble() + "°")
+                        Text(weather.main.tempMax.roundDouble() + "°")
                             .foregroundColor(ColorsManager.textDarkColor)
-                        
+
                         Spacer()
                         Image(systemName: "aqi.medium")
                             .foregroundColor(ColorsManager.textDarkColor)
                         Text(weather.main.pressure.roundDouble() + " hpa")
                             .foregroundColor(ColorsManager.textDarkColor)
                     }
-                    
-                    VStack(alignment: .leading, spacing: 20){
-                        HStack(){
+
+                    VStack(alignment: .leading, spacing: 20) {
+                        HStack {
                             Text("Max Temp")
                                 .foregroundColor(ColorsManager.textDarkColor)
                             Spacer()
@@ -89,13 +84,13 @@ struct WeatherView: View {
                                 .foregroundColor(ColorsManager.textDarkColor)
                         }
                     }
-                    
-                    HStack{
+
+                    HStack {
                         Image(systemName: "thermometer.snowflake")
                             .foregroundColor(ColorsManager.textDarkColor)
-                        Text(weather.main.temp_min.roundDouble() + "°")
+                        Text(weather.main.tempMin.roundDouble() + "°")
                             .foregroundColor(ColorsManager.textDarkColor)
-                        
+
                         Spacer()
                         Image(systemName: "humidity")
                             .foregroundColor(ColorsManager.textDarkColor)
@@ -103,8 +98,8 @@ struct WeatherView: View {
                             .foregroundColor(ColorsManager.textDarkColor)
 
                     }
-                    VStack(alignment: .leading, spacing: 20){
-                        HStack{
+                    VStack(alignment: .leading, spacing: 20) {
+                        HStack {
                             Text("Min Temp")
                                 .foregroundColor(ColorsManager.textDarkColor)
                             Spacer()
@@ -112,8 +107,8 @@ struct WeatherView: View {
                                 .foregroundColor(ColorsManager.textDarkColor)
                         }
                     }
-                    
-                    HStack{
+
+                    HStack {
                         Image(systemName: "wind")
                             .foregroundColor(ColorsManager.textDarkColor)
                         Text(weather.wind.speed.roundDouble() + " m/s")
@@ -125,8 +120,8 @@ struct WeatherView: View {
                             .foregroundColor(ColorsManager.textDarkColor)
 
                     }
-                    VStack(alignment: .leading, spacing: 20){
-                        HStack(){
+                    VStack(alignment: .leading, spacing: 20) {
+                        HStack {
                             Text("Speed Wind")
                                 .foregroundColor(ColorsManager.textDarkColor)
                             Spacer()
@@ -134,7 +129,7 @@ struct WeatherView: View {
                                 .foregroundColor(ColorsManager.textDarkColor)
                         }
                     }
-                    
+
                 }
                 .frame(maxWidth: .infinity, alignment: .leading)
                 .padding()
@@ -144,8 +139,7 @@ struct WeatherView: View {
                 .cornerRadius(20, corners: [.topLeft, .topRight])
 
             }
-            
-            
+
         }
         .edgesIgnoringSafeArea(.bottom)
         .background(ColorsManager.backgroundColor)
@@ -156,17 +150,29 @@ struct WeatherView: View {
 #Preview {
     let sampleWeather = ResponseBody(
         coord: ResponseBody.CoordinatesResponse(lon: 37.6156, lat: 55.7522),
-        weather: [ResponseBody.WeatherResponse(id: 800, main: "Clear", description: "clear sky", icon: "01d")],
-        main: ResponseBody.MainResponse(temp: 25.0, feels_like: 24.0, temp_min: 20.0, temp_max: 30.0, pressure: 1012, humidity: 50),
+        weather: [
+            ResponseBody.WeatherResponse(id: 800, main: "Clear", description: "clear sky", icon: "01d")
+        ],
+        main: ResponseBody.MainResponse(
+            temp: 25.0,
+            feelsLike: 24.0,
+            tempMin: 20.0,
+            tempMax: 30.0,
+            pressure: 1012,
+            humidity: 50
+        ),
         name: "Sample City",
         wind: ResponseBody.WindResponse(speed: 5.0, deg: 180)
     )
-    
+
     let sampleSunriseSunset = SunriseSunsetResponse(
-        results: Results(sunrise: "4:45 AM", sunset: "7:55 PM", solarNoon: "12:20 PM"),
+        results: Results(
+            sunrise: "4:45 AM",
+            sunset: "7:55 PM",
+            solarNoon: "12:20 PM"
+        ),
         status: "OK"
     )
-    
-    return WeatherView(weather: sampleWeather, sunriseSunset: sampleSunriseSunset)
+
+    WeatherView(weather: sampleWeather, sunriseSunset: sampleSunriseSunset)
 }
-//

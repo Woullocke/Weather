@@ -1,28 +1,27 @@
 import Foundation
 import CoreLocation
 
-
 class SunriseSunsetManager {
     func getSunriseSunset(latitude: Double, longitude: Double, completion: @escaping (Result<SunriseSunsetResponse, Error>) -> Void) {
-        let baseURL = "https://api.sunrisesunset.io/json"
-        let urlString = "\(baseURL)?lat=\(latitude)&lng=\(longitude)"
-        
-        guard let url = URL(string: urlString) else {
+        guard let url = SunriseSunsetURL.url(forLatitude: latitude, longitude: longitude) else {
             completion(.failure(NSError(domain: "Invalid URL", code: 0, userInfo: nil)))
             return
         }
-        
+
         URLSession.shared.dataTask(with: url) { (data, response, error) in
             if let error = error {
                 completion(.failure(error))
                 return
             }
-            
+
             guard let data = data else {
-                completion(.failure(NSError(domain: "No data", code: 0, userInfo: nil)))
+                let error = NSError(domain: "No Data", code: 1, userInfo: [
+                    NSLocalizedDescriptionKey: "No Data"
+                ])
+                completion(.failure(error))
                 return
             }
-            
+
             do {
                 let decoder = JSONDecoder()
                 decoder.keyDecodingStrategy = .convertFromSnakeCase
@@ -33,7 +32,7 @@ class SunriseSunsetManager {
             }
         }.resume()
     }
-    
+
     func getSunriseSunsetAsync(latitude: Double, longitude: Double) async throws -> SunriseSunsetResponse {
         try await withCheckedThrowingContinuation { continuation in
             getSunriseSunset(latitude: latitude, longitude: longitude) { result in

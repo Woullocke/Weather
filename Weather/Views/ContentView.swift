@@ -18,7 +18,7 @@ struct ContentView: View {
                     LoadingView()
                         .task {
                             do {
-                                weather = try await weatherManager.getCurrentWeather(latitide: location.latitude, longitude: location.longitude)
+                                weather = try await weatherManager.getCurrentWeather(latitude: location.latitude, longitude: location.longitude)
                                 sunriseSunset = try await sunriseSunsetManager.getSunriseSunsetAsync(latitude: location.latitude, longitude: location.longitude)
                             } catch {
                                 print("Error getting weather or sunrise/sunset: \(error)")
