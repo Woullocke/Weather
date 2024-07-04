@@ -135,8 +135,11 @@
 			buildRules = (
 			);
 			dependencies = (
+				CE0080962C365EB60058F988 /* PBXTargetDependency */,
 			);
 			name = Weather;
+			packageProductDependencies = (
+			);
 			productName = Weather;
 			productReference = 154AD49D2C33E06F009902CF /* Weather.app */;
 			productType = "com.apple.product-type.application";
@@ -166,6 +169,7 @@
 			);
 			mainGroup = 154AD4942C33E06F009902CF;
 			packageReferences = (
+				CE0080922C365EA20058F988 /* XCRemoteSwiftPackageReference "SwiftLint" */,
 			);
 			productRefGroup = 154AD49E2C33E06F009902CF /* Products */;
 			projectDirPath = "";
@@ -209,6 +213,13 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		CE0080962C365EB60058F988 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			productRef = CE0080952C365EB60058F988 /* SwiftLintBuildToolPlugin */;
+		};
+/* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
 		154AD4A92C33E071009902CF /* Debug */ = {
@@ -416,6 +427,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		CE0080922C365EA20058F988 /* XCRemoteSwiftPackageReference "SwiftLint" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/realm/SwiftLint.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 0.55.1;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		CE0080952C365EB60058F988 /* SwiftLintBuildToolPlugin */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = CE0080922C365EA20058F988 /* XCRemoteSwiftPackageReference "SwiftLint" */;
+			productName = "plugin:SwiftLintBuildToolPlugin";
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 154AD4952C33E06F009902CF /* Project object */;
 }
