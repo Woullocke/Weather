@@ -15,42 +15,61 @@ struct SelectCityView: View {
     @State private var sunriseSunsetData: SunriseSunsetResponse?
 
     var body: some View {
-        VStack {
-            TextField("Enter city name", text: $cityName, onCommit: {
-                fetchCoordinates(for: cityName)
-            })
-            .textFieldStyle(RoundedBorderTextFieldStyle())
-            .padding()
-            .multilineTextAlignment(.center)
-
-            if isLoading {
-                ProgressView()
-                    .progressViewStyle(CircularProgressViewStyle())
-                    .scaleEffect(1.5, anchor: .center)
-            } else {
-                if let errorMessage = errorMessage {
-                    Text("Error: \(errorMessage)")
-                        .foregroundColor(.red)
-                        .padding()
-                } else if let weatherData = weatherData, let sunriseSunsetData = sunriseSunsetData {
-                    Button(action: {
-                        isWeatherViewPresented = true
-                    }) { 
-                        Text("Show Weather")
-                            .bold().font(.title2)
-                            .padding()
-                            .background(Color.blue)
-                            .foregroundColor(.white)
-                            .cornerRadius(10)
-                    }
-                    .fullScreenCover(isPresented: $isWeatherViewPresented) {
-                        WeatherView(weather: weatherData, sunriseSunset: sunriseSunsetData)
-                            .navigationBarTitle("Weather", displayMode: .inline)
-                    }
+        ZStack {
+            Color(red: 0.0, green: 0.0, blue: 0.4, opacity: 1.0)
+            VStack { Text("Enter city name")
+                    .font(.system(size: 30))
+                    .fontWeight(.bold)
                     .padding()
+                    Text("After entering the city name, press return and wait for the download to complete")
+                    .font(.system(size: 15))
+                    .fontWeight(.bold)
+                    .padding()
+                    .multilineTextAlignment(.center)
+                Spacer()
+                TextField("Press me", text: $cityName, onCommit: {
+                    fetchCoordinates(for: cityName)
+                })
+                .textFieldStyle(RoundedBorderTextFieldStyle())
+                .padding()
+                .foregroundColor(.white)
+                .cornerRadius(8)
+                .padding()
+                .multilineTextAlignment(.center)
+                Spacer()
+                Spacer()
+
+                if isLoading {
+                    ProgressView()
+                        .progressViewStyle(CircularProgressViewStyle())
+                        .scaleEffect(1.5, anchor: .center)
+                } else {
+                    if let errorMessage = errorMessage {
+                        Text("Error: \(errorMessage)")
+                            .foregroundColor(.red)
+                            .padding()
+                    } else if let weatherData = weatherData, let sunriseSunsetData = sunriseSunsetData {
+                        Button(action: {
+                            isWeatherViewPresented = true
+                        }) { Text("Show Weather")
+                                .bold().font(.title2)
+                                .padding()
+                                .background(Color.blue)
+                                .foregroundColor(.white)
+                                .cornerRadius(10)
+                        }
+                        .fullScreenCover(isPresented: $isWeatherViewPresented) {
+                            WeatherView(weather: weatherData, sunriseSunset: sunriseSunsetData)
+                                .navigationBarTitle("Weather", displayMode: .inline)
+                        }
+                        
+                        .padding()
+                    }
                 }
             }
+            .frame(maxWidth: .infinity, maxHeight: .infinity)
         }
+        .edgesIgnoringSafeArea(.all)
         .navigationTitle("Select City")
         .navigationBarTitleDisplayMode(.inline)
     }

@@ -12,6 +12,8 @@ struct WeatherView: View {
                         HStack {
                             Text(weather.name)
                                 .bold().font(.title)
+                            Spacer()
+
                         }
                         Text("Today, \(Date().formatted(.dateTime.month().day().hour().minute()))")
                             .fontWeight(.light)
