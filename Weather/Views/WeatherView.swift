@@ -183,14 +183,6 @@ struct WeatherView: View {
     }
 }
 
-struct SelectCityView: View {
-    var body: some View {
-        Text("Select City View")
-            .font(.largeTitle)
-            .navigationTitle("Select City")
-    }
-}
-
 #Preview {
     let sampleWeather = ResponseBody(
         coord: ResponseBody.CoordinatesResponse(lon: 37.6156, lat: 55.7522),
