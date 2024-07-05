@@ -3,6 +3,9 @@ import CoreLocationUI
 
 struct WelcomeView: View {
     @EnvironmentObject var locationManager: LocationManager
+    @State private var latitude: Double?
+    @State private var longitude: Double?
+    @State private var isSelectCityViewPresented: Bool = false
 
     var body: some View {
         VStack {
@@ -23,6 +26,19 @@ struct WelcomeView: View {
                 .symbolVariant(.fill)
                 .foregroundColor(.white)
             }
+            .padding()
+
+            Button(action: {
+                isSelectCityViewPresented.toggle()
+            }) {
+                Text("Choose city")
+                    .bold().font(.title2)
+                    .foregroundColor(.blue)
+            }
+            .padding()
+            .sheet(isPresented: $isSelectCityViewPresented) {
+                SelectCityView(latitude: $latitude, longitude: $longitude)
+            }
 
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity)
@@ -31,4 +47,5 @@ struct WelcomeView: View {
 
 #Preview {
     WelcomeView()
+        .environmentObject(LocationManager())
 }

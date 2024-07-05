@@ -1,23 +1,19 @@
 import SwiftUI
-import Foundation
-
-struct GeoapifyResponse: Codable {
-    struct Feature: Codable {
-        struct Properties: Codable {
-            let lon: Double
-            let lat: Double
-        }
-        let properties: Properties
-    }
-    let features: [Feature]
-}
 
 struct SelectCityView: View {
+    @Binding var latitude: Double?
+    @Binding var longitude: Double?
     @State private var cityName: String = ""
-    @State private var latitude: Double?
-    @State private var longitude: Double?
     @State private var isLoading: Bool = false
-    
+    @State private var errorMessage: String?
+    @State private var isWeatherViewPresented: Bool = false
+
+    private let weatherManager = WeatherManager()
+    private let sunriseSunsetManager = SunriseSunsetManager()
+
+    @State private var weatherData: ResponseBody?
+    @State private var sunriseSunsetData: SunriseSunsetResponse?
+
     var body: some View {
         VStack {
             TextField("Enter city name", text: $cityName, onCommit: {
@@ -25,58 +21,102 @@ struct SelectCityView: View {
             })
             .textFieldStyle(RoundedBorderTextFieldStyle())
             .padding()
-            
+            .multilineTextAlignment(.center)
+
             if isLoading {
                 ProgressView()
                     .progressViewStyle(CircularProgressViewStyle())
                     .scaleEffect(1.5, anchor: .center)
             } else {
-                if let lat = latitude, let lon = longitude {
-                    Text("Latitude: \(lat)")
-                        .font(.title)
-                    Text("Longitude: \(lon)")
-                        .font(.title)
-                } else {
-                    Text("No coordinates available")
-                        .font(.title)
+                if let errorMessage = errorMessage {
+                    Text("Error: \(errorMessage)")
+                        .foregroundColor(.red)
+                        .padding()
+                } else if let weatherData = weatherData, let sunriseSunsetData = sunriseSunsetData {
+                    Button(action: {
+                        isWeatherViewPresented = true
+                    }) { 
+                        Text("Show Weather")
+                            .bold().font(.title2)
+                            .padding()
+                            .background(Color.blue)
+                            .foregroundColor(.white)
+                            .cornerRadius(10)
+                    }
+                    .fullScreenCover(isPresented: $isWeatherViewPresented) {
+                        WeatherView(weather: weatherData, sunriseSunset: sunriseSunsetData)
+                            .navigationBarTitle("Weather", displayMode: .inline)
+                    }
+                    .padding()
                 }
             }
         }
         .navigationTitle("Select City")
         .navigationBarTitleDisplayMode(.inline)
-        .onAppear {
-            fetchCoordinates(for: cityName)
-        }
     }
 
     func fetchCoordinates(for city: String) {
         isLoading = true
+        errorMessage = nil
         let apiKey = "ffd4afc2614b4fde9b6c55fbc1f7dd02"
         let urlString = "https://api.geoapify.com/v1/geocode/search?text=\(city.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) ?? "")&apiKey=\(apiKey)"
-                guard let url = URL(string: urlString) else { return }
-        URLSession.shared.dataTask(with: url) {data, response, error in
+        guard let url = URL(string: urlString) else {
+            isLoading = false
+            errorMessage = "Invalid URL"
+            return
+        }
+        URLSession.shared.dataTask(with: url) { data, response, error in
             DispatchQueue.main.async {
                 isLoading = false
-                if let data = data {
-                    do {
-                        let decodedResponse = try JSONDecoder().decode(GeoapifyResponse.self, from: data)
-                        if let firstFeature = decodedResponse.features.first {
-                            self.latitude = firstFeature.properties.lat
-                            self.longitude = firstFeature.properties.lon
-                        } else {
-                            self.latitude = nil
-                            self.longitude = nil
-                        }
-                    } catch {
-                        print("Error decoding response: \(error)")
+                if let error = error {
+                    errorMessage = "Request error: \(error.localizedDescription)"
+                    return
+                }
+                guard let data = data else {
+                    errorMessage = "No data"
+                    return
+                }
+                do {
+                    let decodedResponse = try JSONDecoder().decode(GeoapifyResponse.self, from: data)
+                    if let firstFeature = decodedResponse.features.first {
+                        self.latitude = firstFeature.properties.lat
+                        self.longitude = firstFeature.properties.lon
+                        fetchWeatherAndSunriseSunset(latitude: firstFeature.properties.lat, longitude: firstFeature.properties.lon)
+                    } else {
                         self.latitude = nil
                         self.longitude = nil
+                        errorMessage = "Coordinates not found"
                     }
-                } else {
+                } catch {
+                    errorMessage = "Decoding error: \(error.localizedDescription)"
                     self.latitude = nil
                     self.longitude = nil
                 }
             }
         }.resume()
     }
+
+    func fetchWeatherAndSunriseSunset(latitude: Double, longitude: Double) {
+        Task {
+            do {
+                let weather = try await weatherManager.getCurrentWeather(latitude: latitude, longitude: longitude)
+                let sunriseSunset = try await sunriseSunsetManager.getSunriseSunsetAsync(latitude: latitude, longitude: longitude)
+                self.weatherData = weather
+                self.sunriseSunsetData = sunriseSunset
+            } catch {
+                errorMessage = "Error fetching weather data: \(error.localizedDescription)"
+            }
+        }
+    }
+}
+
+struct GeoapifyResponse: Codable {
+    struct Feature: Codable {
+        struct Properties: Codable {
+            let lat: Double
+            let lon: Double
+        }
+        let properties: Properties
+    }
+    let features: [Feature]
 }

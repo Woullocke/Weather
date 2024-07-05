@@ -32,3 +32,10 @@ struct PictureURL {
         return URL(string: sunCity)
     }
 }
+
+struct GeoURL {
+    static let geoCity = "https://golnk.ru/dZgrQ"
+    static func getSunCity() -> URL? {
+        return URL(string: geoCity)
+    }
+}
