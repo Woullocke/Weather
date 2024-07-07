@@ -45,57 +45,50 @@ struct SelectCityView: View {
                     .multilineTextAlignment(.center)
 
                     Spacer()
-                    
-                    if isLoading {
-                        ProgressView()
-                            .progressViewStyle(CircularProgressViewStyle())
-                            .scaleEffect(1.5, anchor: .center)
+
+                    if let errorMessage = errorMessage {
+                        Text("Error: \(errorMessage)")
+                            .foregroundColor(.red)
                             .padding()
-                    } else {
-                        if let errorMessage = errorMessage {
-                            Text("Error: \(errorMessage)")
-                                .foregroundColor(.red)
+                    }
+
+                    VStack {
+                        Button(action: {
+                            if weatherData != nil && sunriseSunsetData != nil {
+                                isWeatherViewPresented = true
+                            }
+                        }) {
+                            Text("Show Weather")
+                                .bold()
+                                .font(.title2)
                                 .padding()
+                                .background(weatherData != nil && sunriseSunsetData != nil ? Color.blue : Color.gray)
+                                .foregroundColor(.white)
+                                .cornerRadius(10)
                         }
+                        .disabled(weatherData == nil || sunriseSunsetData == nil)
+                        .padding()
 
-                        VStack {
-                            Button(action: {
-                                if weatherData != nil && sunriseSunsetData != nil {
-                                    isWeatherViewPresented = true
-                                }
-                            }) {
-                                Text("Show Weather")
-                                    .bold()
-                                    .font(.title2)
-                                    .padding()
-                                    .background(weatherData != nil && sunriseSunsetData != nil ? Color.blue : Color.gray)
-                                    .foregroundColor(.white)
-                                    .cornerRadius(10)
+                        Button(action: {
+                            if !cityName.isEmpty {
+                                saveCity(cityName)
                             }
-                            .disabled(weatherData == nil || sunriseSunsetData == nil)
-                            .padding()
-
-                            Button(action: {
-                                if !cityName.isEmpty {
-                                    saveCity(cityName)
-                                }
-                            }) {
-                                Text("Save City")
-                                    .bold()
-                                    .font(.title2)
-                                    .padding()
-                                    .background(!cityName.isEmpty ? Color.green : Color.gray)
-                                    .foregroundColor(.white)
-                                    .cornerRadius(10)
-                            }
-                            .disabled(cityName.isEmpty)
-                            .padding()
+                        }) {
+                            Text("Save City")
+                                .bold()
+                                .font(.title2)
+                                .padding()
+                                .background(!cityName.isEmpty ? Color.green : Color.gray)
+                                .foregroundColor(.white)
+                                .cornerRadius(10)
                         }
-                        .fullScreenCover(isPresented: $isWeatherViewPresented) {
-                            if let weatherData = weatherData, let sunriseSunsetData = sunriseSunsetData {
-                                WeatherView(weather: weatherData, sunriseSunset: sunriseSunsetData)
-                                    .navigationBarTitle("Weather", displayMode: .inline)
-                            }
+                        .disabled(cityName.isEmpty)
+                        .padding()
+                    }
+                    .fullScreenCover(isPresented: $isWeatherViewPresented) {
+                        if let weatherData = weatherData, let sunriseSunsetData = sunriseSunsetData {
+                            WeatherView(weather: weatherData, sunriseSunset: sunriseSunsetData)
+                                .navigationBarTitle("Weather", displayMode: .inline)
                         }
                     }
 
@@ -131,6 +124,16 @@ struct SelectCityView: View {
             }
             .frame(maxWidth: .infinity, maxHeight: .infinity)
             .padding(.horizontal)
+            .overlay(
+                Group {
+                    if isLoading {
+                        ProgressView()
+                            .progressViewStyle(CircularProgressViewStyle())
+                            .scaleEffect(1.5, anchor: .center)
+                            .padding()
+                    }
+                }
+            )
         }
         .navigationTitle("Select City")
         .navigationBarTitleDisplayMode(.inline)

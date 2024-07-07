@@ -16,8 +16,22 @@ struct WelcomeView: View {
                     .ignoresSafeArea()
 
                 VStack {
+                    HStack {
+                        Spacer()
+                        Button(action: {
+                            isSettingsViewPresented.toggle()
+                        }) {
+                            Image(systemName: "gearshape")
+                                .foregroundColor(.blue)
+                        }
+                        .sheet(isPresented: $isSettingsViewPresented) {
+                            SettingsView()
+                                .environmentObject(settingsManager)
+                        }
+                    }
+                    .padding()
                     VStack(spacing: 20) {
-                        Text("Welcome to the Weather")
+                            Text("Welcome to the Weather")
                             .bold().font(.title)
                             .foregroundColor(ColorsManager.textLightColor)
 
@@ -53,21 +67,6 @@ struct WelcomeView: View {
 
                 VStack {
                     Spacer()
-
-                    HStack {
-                        Spacer()
-                        Button(action: {
-                            isSettingsViewPresented.toggle()
-                        }) {
-                            Image(systemName: "gearshape")
-                                .foregroundColor(.blue)
-                        }
-                        .sheet(isPresented: $isSettingsViewPresented) {
-                            SettingsView()
-                                .environmentObject(settingsManager)
-                        }
-                    }
-                    .padding()
                 }
             }
             .navigationTitle("")
