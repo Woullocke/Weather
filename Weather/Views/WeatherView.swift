@@ -3,6 +3,7 @@ import SwiftUI
 struct WeatherView: View {
     var weather: ResponseBody
     var sunriseSunset: SunriseSunsetResponse
+    @EnvironmentObject var settingsManager: SettingsManager
 
     var body: some View {
         NavigationView {
@@ -92,70 +93,144 @@ struct WeatherView: View {
                             .foregroundColor(ColorsManager.textDarkColor)
 
                         HStack {
-                            Image(systemName: "thermometer.sun.fill")
-                                .foregroundColor(ColorsManager.textDarkColor)
-                            Text(weather.main.tempMax.roundDouble() + "°")
-                                .foregroundColor(ColorsManager.textDarkColor)
-
-                            Spacer()
-                            Image(systemName: "aqi.medium")
-                                .foregroundColor(ColorsManager.textDarkColor)
-                            Text(weather.main.pressure.roundDouble() + " hpa")
-                                .foregroundColor(ColorsManager.textDarkColor)
+                            if settingsManager.toggles[0] == true {
+                                Image(systemName: "thermometer.sun.fill")
+                                    .foregroundColor(ColorsManager.textDarkColor)
+                                Text(weather.main.tempMax.roundDouble() + "°")
+                                    .foregroundColor(ColorsManager.textDarkColor)
+                                Spacer()
+                            } else {
+                                Image(systemName: "thermometer.sun.fill")
+                                    .foregroundColor(ColorsManager.textLightColor)
+                                Text(weather.main.tempMax.roundDouble() + "°")
+                                    .foregroundColor(ColorsManager.textLightColor)
+                                Spacer()
+                            }
+                            if settingsManager.toggles[4] == true {
+                                Image(systemName: "aqi.medium")
+                                    .foregroundColor(ColorsManager.textDarkColor)
+                                Text(weather.main.pressure.roundDouble() + " hpa")
+                                    .foregroundColor(ColorsManager.textDarkColor)
+                            } else {
+                                Image(systemName: "aqi.medium")
+                                    .foregroundColor(ColorsManager.textLightColor)
+                                Text(weather.main.pressure.roundDouble() + " hpa")
+                                    .foregroundColor(ColorsManager.textLightColor)
+                            }
                         }
 
                         VStack(alignment: .leading, spacing: 20) {
                             HStack {
-                                Text("Max Temp")
-                                    .foregroundColor(ColorsManager.textDarkColor)
-                                Spacer()
-                                Text("Pressure")
-                                    .foregroundColor(ColorsManager.textDarkColor)
+                                if settingsManager.toggles[0] == true {
+                                    Text("Max Temp")
+                                        .foregroundColor(ColorsManager.textDarkColor)
+                                    Spacer()
+                                } else {
+                                    Text("Max Temp")
+                                        .foregroundColor(ColorsManager.textLightColor)
+                                    Spacer()
+                                }
+                                if settingsManager.toggles[4] == true {
+                                    Text("Pressure")
+                                        .foregroundColor(ColorsManager.textDarkColor)
+                                } else {
+                                    Text("Pressure")
+                                        .foregroundColor(ColorsManager.textLightColor)
+                                }
                             }
                         }
 
                         HStack {
-                            Image(systemName: "thermometer.snowflake")
-                                .foregroundColor(ColorsManager.textDarkColor)
-                            Text(weather.main.tempMin.roundDouble() + "°")
-                                .foregroundColor(ColorsManager.textDarkColor)
-
-                            Spacer()
-                            Image(systemName: "humidity")
-                                .foregroundColor(ColorsManager.textDarkColor)
-                            Text(weather.main.humidity.roundDouble() + " %")
-                                .foregroundColor(ColorsManager.textDarkColor)
-
+                            if settingsManager.toggles[1] == true {
+                                Image(systemName: "thermometer.snowflake")
+                                    .foregroundColor(ColorsManager.textDarkColor)
+                                Text(weather.main.tempMin.roundDouble() + "°")
+                                    .foregroundColor(ColorsManager.textDarkColor)
+                                Spacer()
+                            } else {
+                                    Image(systemName: "thermometer.snowflake")
+                                        .foregroundColor(ColorsManager.textLightColor)
+                                    Text(weather.main.tempMin.roundDouble() + "°")
+                                        .foregroundColor(ColorsManager.textLightColor)
+                                    Spacer()
+                            }
+                            if settingsManager.toggles[3] == true {
+                                Image(systemName: "humidity")
+                                    .foregroundColor(ColorsManager.textDarkColor)
+                                Text(weather.main.humidity.roundDouble() + " %")
+                                    .foregroundColor(ColorsManager.textDarkColor)
+                            } else {
+                                Image(systemName: "humidity")
+                                    .foregroundColor(ColorsManager.textLightColor)
+                                Text(weather.main.humidity.roundDouble() + " %")
+                                    .foregroundColor(ColorsManager.textLightColor)
+                            }
                         }
                         VStack(alignment: .leading, spacing: 20) {
                             HStack {
-                                Text("Min Temp")
-                                    .foregroundColor(ColorsManager.textDarkColor)
-                                Spacer()
-                                Text("Humidity")
-                                    .foregroundColor(ColorsManager.textDarkColor)
+                                if settingsManager.toggles[1] == true {
+                                    Text("Min Temp")
+                                        .foregroundColor(ColorsManager.textDarkColor)
+                                    Spacer()
+                                } else {
+                                    Text("Min Temp")
+                                        .foregroundColor(ColorsManager.textLightColor)
+                                    Spacer()
+                                }
+                                if settingsManager.toggles[3] == true {
+                                    Text("Humidity")
+                                        .foregroundColor(ColorsManager.textDarkColor)
+                                } else {
+                                    Text("Humidity")
+                                        .foregroundColor(ColorsManager.textLightColor)
+                                }
                             }
                         }
 
                         HStack {
-                            Image(systemName: "wind")
-                                .foregroundColor(ColorsManager.textDarkColor)
-                            Text(weather.wind.speed.roundDouble() + " m/s")
-                                .foregroundColor(ColorsManager.textDarkColor)
-                            Spacer()
-                            Image(systemName: "sunset")
-                                .foregroundColor(ColorsManager.textDarkColor)
-                            Text(sunriseSunset.results.sunset)
-                                .foregroundColor(ColorsManager.textDarkColor)
-
+                            if settingsManager.toggles[2] == true {
+                                Image(systemName: "wind")
+                                    .foregroundColor(ColorsManager.textDarkColor)
+                                Text(weather.wind.speed.roundDouble() + " m/s")
+                                    .foregroundColor(ColorsManager.textDarkColor)
+                                Spacer()
+                            } else {
+                                Image(systemName: "wind")
+                                    .foregroundColor(ColorsManager.textLightColor)
+                                Text(weather.wind.speed.roundDouble() + " m/s")
+                                    .foregroundColor(ColorsManager.textLightColor)
+                                Spacer()
+                            }
+                            if settingsManager.toggles[5] == true {
+                                Image(systemName: "sunset")
+                                    .foregroundColor(ColorsManager.textDarkColor)
+                                Text(sunriseSunset.results.sunset)
+                                    .foregroundColor(ColorsManager.textDarkColor)
+                            } else {
+                                Image(systemName: "sunset")
+                                    .foregroundColor(ColorsManager.textLightColor)
+                                Text(sunriseSunset.results.sunset)
+                                    .foregroundColor(ColorsManager.textLightColor)
+                            }
                         }
                         VStack(alignment: .leading, spacing: 20) {
                             HStack {
-                                Text("Speed Wind")
-                                    .foregroundColor(ColorsManager.textDarkColor)
-                                Spacer()
-                                Text("Sunset")
-                                    .foregroundColor(ColorsManager.textDarkColor)
+                                if settingsManager.toggles[2] == true {
+                                    Text("Speed Wind")
+                                        .foregroundColor(ColorsManager.textDarkColor)
+                                    Spacer()
+                                } else {
+                                        Text("Speed Wind")
+                                            .foregroundColor(ColorsManager.textLightColor)
+                                        Spacer()
+                                }
+                                if settingsManager.toggles[5] == true {
+                                    Text("Sunset")
+                                        .foregroundColor(ColorsManager.textDarkColor)
+                                } else {
+                                    Text("Sunset")
+                                        .foregroundColor(ColorsManager.textLightColor)
+                                }
                             }
                         }
 

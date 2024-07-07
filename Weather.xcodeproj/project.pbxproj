@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		150616FA2C3AE8C200B73CE6 /* SettingsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 150616F92C3AE8B500B73CE6 /* SettingsManager.swift */; };
 		154AD4A12C33E06F009902CF /* WeatherApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 154AD4A02C33E06F009902CF /* WeatherApp.swift */; };
 		154AD4A32C33E06F009902CF /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 154AD4A22C33E06F009902CF /* ContentView.swift */; };
 		154AD4A82C33E071009902CF /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 154AD4A72C33E071009902CF /* Preview Assets.xcassets */; };
@@ -27,6 +28,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		150616F92C3AE8B500B73CE6 /* SettingsManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsManager.swift; sourceTree = "<group>"; };
 		154AD49D2C33E06F009902CF /* Weather.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Weather.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		154AD4A02C33E06F009902CF /* WeatherApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherApp.swift; sourceTree = "<group>"; };
 		154AD4A22C33E06F009902CF /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -97,6 +99,7 @@
 		154AD4AE2C33E30D009902CF /* Managers */ = {
 			isa = PBXGroup;
 			children = (
+				150616F92C3AE8B500B73CE6 /* SettingsManager.swift */,
 				15617B4A2C36A7B600020444 /* UrlManager.swift */,
 				158B21702C357C6E009AF8E6 /* SunriseManager.swift */,
 				154AD4DA2C349259009902CF /* ColorManager.swift */,
@@ -239,6 +242,7 @@
 				154AD4B02C33E337009902CF /* LocationManager.swift in Sources */,
 				154AD4B72C33E9A7009902CF /* LoadingView.swift in Sources */,
 				154AD4BB2C3401A0009902CF /* WeatherView.swift in Sources */,
+				150616FA2C3AE8C200B73CE6 /* SettingsManager.swift in Sources */,
 				15617B4B2C36A7BE00020444 /* UrlManager.swift in Sources */,
 				154AD4D72C348B4F009902CF /* Double+RoundedCorner.swift in Sources */,
 				154AD4B52C33E5B4009902CF /* WelcomeView.swift in Sources */,

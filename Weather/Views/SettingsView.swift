@@ -1,28 +1,39 @@
 import SwiftUI
 
 struct SettingsView: View {
-    @State var toggles: [Bool] = Array(repeating: true, count: 6)
-    private let toggleLabels = ["MaxTemp", "MinTemp", "Speed", "Wind", "Pressure", "Sunset"]
-
+    @EnvironmentObject var settingsManager: SettingsManager
+    private let toggleLabels = ["MaxTemp", "MinTemp", "Speed Wind", "Humidity", "Pressure", "Sunset"]
     var body: some View {
-        VStack(spacing: 20) {
-            Text("Settings")
-                .bold().font(.title)
-                .padding()
-
-            ForEach(0..<toggles.count, id: \.self) { index in
-                Toggle(isOn: $toggles[index]) {
-                    Text(toggleLabels[index])
-                        .font(.headline)
+        ZStack {
+            VStack(spacing: 20) {
+                Text("Settings")
+                    .bold()
+                    .font(.title)
+                    .padding()
+                List {
+                    ForEach(settingsManager.toggles.indices, id: \.self) { index in
+                        Toggle(isOn: $settingsManager.toggles[index]) {
+                            Text(toggleLabels[index])
+                                .font(.headline)
+                        }
+                        .padding()
+                        .background(ColorsManager.backgroundColor)
+                        .cornerRadius(15)
+                        .onChange(of: settingsManager.toggles[index]) { _ in
+                            settingsManager.toggleDidChange(at: index)
+                        }
+                    }
                 }
-                .padding()
             }
+            .frame(maxWidth: .infinity, maxHeight: .infinity)
+            .background(ColorsManager.backgroundColor)
         }
-        .frame(maxWidth: .infinity, maxHeight: .infinity)
-        .background(ColorsManager.backgroundColor)
     }
 }
 
-#Preview {
-    SettingsView(toggles: Array(repeating: true, count: 6))
+struct SettingsView_Previews: PreviewProvider {
+    static var previews: some View {
+        SettingsView()
+            .environmentObject(SettingsManager())
+    }
 }

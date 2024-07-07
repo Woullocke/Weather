@@ -3,6 +3,7 @@ import CoreLocationUI
 
 struct WelcomeView: View {
     @EnvironmentObject var locationManager: LocationManager
+    @EnvironmentObject var settingsManager: SettingsManager
     @State private var latitude: Double?
     @State private var longitude: Double?
     @State private var isSelectCityViewPresented: Bool = false
@@ -13,7 +14,7 @@ struct WelcomeView: View {
             ZStack {
                 ColorsManager.backgroundColor
                     .ignoresSafeArea()
-                
+
                 VStack {
                     VStack(spacing: 20) {
                         Text("Welcome to the Weather")
@@ -44,23 +45,33 @@ struct WelcomeView: View {
                     .padding()
                     .sheet(isPresented: $isSelectCityViewPresented) {
                         SelectCityView(latitude: $latitude, longitude: $longitude)
+                            .environmentObject(settingsManager)
                     }
+
                 }
                 .frame(maxWidth: .infinity, maxHeight: .infinity)
-            }
-            .toolbar {
-                ToolbarItem(placement: .navigationBarTrailing) {
-                    Button(action: {
-                        isSettingsViewPresented.toggle()
-                    }) {
-                        Image(systemName: "gearshape")
-                            .foregroundColor(.blue)
+
+                VStack {
+                    Spacer()
+
+                    HStack {
+                        Spacer()
+                        Button(action: {
+                            isSettingsViewPresented.toggle()
+                        }) {
+                            Image(systemName: "gearshape")
+                                .foregroundColor(.blue)
+                        }
+                        .sheet(isPresented: $isSettingsViewPresented) {
+                            SettingsView()
+                                .environmentObject(settingsManager)
+                        }
                     }
-                    .sheet(isPresented: $isSettingsViewPresented) {
-                        SettingsView()
-                    }
+                    .padding()
                 }
             }
+            .navigationTitle("")
+            .navigationBarHidden(true)
         }
     }
 }
