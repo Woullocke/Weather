@@ -8,68 +8,130 @@ struct SelectCityView: View {
     @State private var errorMessage: String?
     @State private var isWeatherViewPresented: Bool = false
 
-    private let weatherManager = WeatherManager()
-    private let sunriseSunsetManager = SunriseSunsetManager()
-
+    @State private var savedCities: [String] = []
     @State private var weatherData: ResponseBody?
     @State private var sunriseSunsetData: SunriseSunsetResponse?
+
+    private let weatherManager = WeatherManager()
+    private let sunriseSunsetManager = SunriseSunsetManager()
 
     var body: some View {
         ZStack {
             Color(red: 0.0, green: 0.0, blue: 0.4, opacity: 1.0)
-            VStack { Text("Enter city name")
-                    .font(.system(size: 30))
-                    .fontWeight(.bold)
-                    .padding()
+                .edgesIgnoringSafeArea(.all)
+
+            VStack {
+                VStack {
+                    Text("Enter city name")
+                        .font(.system(size: 30))
+                        .fontWeight(.bold)
+                        .padding()
                     Text("After entering the city name, press return and wait for the download to complete")
-                    .font(.system(size: 15))
-                    .fontWeight(.bold)
+                        .font(.system(size: 15))
+                        .fontWeight(.bold)
+                        .padding()
+                        .multilineTextAlignment(.center)
+
+                    Spacer()
+
+                    TextField("Press me", text: $cityName, onCommit: {
+                        fetchCoordinates(for: cityName)
+                    })
+                    .textFieldStyle(RoundedBorderTextFieldStyle())
+                    .padding()
+                    .foregroundColor(.white)
+                    .cornerRadius(8)
                     .padding()
                     .multilineTextAlignment(.center)
-                Spacer()
-                TextField("Press me", text: $cityName, onCommit: {
-                    fetchCoordinates(for: cityName)
-                })
-                .textFieldStyle(RoundedBorderTextFieldStyle())
-                .padding()
-                .foregroundColor(.white)
-                .cornerRadius(8)
-                .padding()
-                .multilineTextAlignment(.center)
-                Spacer()
-                Spacer()
 
-                if isLoading {
-                    ProgressView()
-                        .progressViewStyle(CircularProgressViewStyle())
-                        .scaleEffect(1.5, anchor: .center)
-                } else {
-                    if let errorMessage = errorMessage {
-                        Text("Error: \(errorMessage)")
-                            .foregroundColor(.red)
+                    Spacer()
+                    
+                    if isLoading {
+                        ProgressView()
+                            .progressViewStyle(CircularProgressViewStyle())
+                            .scaleEffect(1.5, anchor: .center)
                             .padding()
-                    } else if let weatherData = weatherData, let sunriseSunsetData = sunriseSunsetData {
-                        Button(action: {
-                            isWeatherViewPresented = true
-                        }) { Text("Show Weather")
-                                .bold().font(.title2)
+                    } else {
+                        if let errorMessage = errorMessage {
+                            Text("Error: \(errorMessage)")
+                                .foregroundColor(.red)
                                 .padding()
-                                .background(Color.blue)
-                                .foregroundColor(.white)
-                                .cornerRadius(10)
+                        }
+
+                        VStack {
+                            Button(action: {
+                                if weatherData != nil && sunriseSunsetData != nil {
+                                    isWeatherViewPresented = true
+                                }
+                            }) {
+                                Text("Show Weather")
+                                    .bold()
+                                    .font(.title2)
+                                    .padding()
+                                    .background(weatherData != nil && sunriseSunsetData != nil ? Color.blue : Color.gray)
+                                    .foregroundColor(.white)
+                                    .cornerRadius(10)
+                            }
+                            .disabled(weatherData == nil || sunriseSunsetData == nil)
+                            .padding()
+
+                            Button(action: {
+                                if !cityName.isEmpty {
+                                    saveCity(cityName)
+                                }
+                            }) {
+                                Text("Save City")
+                                    .bold()
+                                    .font(.title2)
+                                    .padding()
+                                    .background(!cityName.isEmpty ? Color.green : Color.gray)
+                                    .foregroundColor(.white)
+                                    .cornerRadius(10)
+                            }
+                            .disabled(cityName.isEmpty)
+                            .padding()
                         }
                         .fullScreenCover(isPresented: $isWeatherViewPresented) {
-                            WeatherView(weather: weatherData, sunriseSunset: sunriseSunsetData)
-                                .navigationBarTitle("Weather", displayMode: .inline)
+                            if let weatherData = weatherData, let sunriseSunsetData = sunriseSunsetData {
+                                WeatherView(weather: weatherData, sunriseSunset: sunriseSunsetData)
+                                    .navigationBarTitle("Weather", displayMode: .inline)
+                            }
                         }
-                        
-                        .padding()
                     }
+
+                    Divider()
+                        .background(Color.white)
+                        .padding(.vertical)
+
+                    Text("Saved Cities")
+                        .font(.headline)
+                        .foregroundColor(.white)
+                        .padding(.bottom, 5)
                 }
+
+                List {
+                    ForEach(savedCities, id: \.self) { city in
+                        HStack {
+                            Text(city)
+                                .foregroundColor(.white)
+                            Spacer()
+                            Button(action: {
+                                fetchCoordinates(for: city)
+                            }) {
+                                Text("Load")
+                                    .foregroundColor(.blue)
+                            }
+                        }
+                    }
+                    .onDelete(perform: deleteCity)
+                    .listRowBackground(Color(red: 0.0, green: 0.0, blue: 0.4, opacity: 1.0))
+                }
+                .onAppear(perform: loadSavedCities)
+                .background(Color(red: 0.0, green: 0.0, blue: 0.4, opacity: 1.0))
             }
             .frame(maxWidth: .infinity, maxHeight: .infinity)
+            .padding(.horizontal)
         }
-        .edgesIgnoringSafeArea(.all)
         .navigationTitle("Select City")
         .navigationBarTitleDisplayMode(.inline)
     }
@@ -126,6 +188,28 @@ struct SelectCityView: View {
                 errorMessage = "Error fetching weather data: \(error.localizedDescription)"
             }
         }
+    }
+
+    func saveCity(_ city: String) {
+        if !savedCities.contains(city) {
+            savedCities.append(city)
+            saveCitiesToUserDefaults()
+        }
+    }
+
+    func loadSavedCities() {
+        if let savedCities = UserDefaults.standard.array(forKey: "savedCities") as? [String] {
+            self.savedCities = savedCities
+        }
+    }
+
+    func saveCitiesToUserDefaults() {
+        UserDefaults.standard.set(savedCities, forKey: "savedCities")
+    }
+
+    func deleteCity(at offsets: IndexSet) {
+        savedCities.remove(atOffsets: offsets)
+        saveCitiesToUserDefaults()
     }
 }
 
