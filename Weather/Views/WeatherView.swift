@@ -4,6 +4,7 @@ struct WeatherView: View {
     var weather: ResponseBody
     var sunriseSunset: SunriseSunsetResponse
     @EnvironmentObject var settingsManager: SettingsManager
+    @Environment(\.dismiss) var dismiss
 
     var body: some View {
         NavigationView {
@@ -11,10 +12,16 @@ struct WeatherView: View {
                 VStack {
                     VStack(alignment: .leading, spacing: 5) {
                         HStack {
+                            Button(action: {
+                                dismiss()
+                            }) {
+                                Image(systemName: "arrow.left")
+                                    .font(.title)
+                                    .foregroundColor(.white)
+                            }
                             Text(weather.name)
                                 .bold().font(.title)
                             Spacer()
-
                         }
                         Text("Today, \(Date().formatted(.dateTime.month().day().hour().minute()))")
                             .fontWeight(.light)
@@ -280,4 +287,5 @@ struct WeatherView: View {
     )
 
     WeatherView(weather: sampleWeather, sunriseSunset: sampleSunriseSunset)
+        .environmentObject(SettingsManager())
 }
